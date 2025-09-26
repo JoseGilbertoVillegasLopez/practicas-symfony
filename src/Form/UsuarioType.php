@@ -53,10 +53,11 @@ class UsuarioType extends AbstractType
             ->add('edad', NumberType::class, [ // agregamos el numbertype para personalizar el campo
                 'label' => 'Edad', // personalizamos la etiqueta para que muestre "Edad" en lugar del nombre del campo en la base de datos
                 'required' => true, // hacemos que el campo sea obligatorio que por dejefcto es true pero lo ponemos para que se note
-                'scale' => 0, // para que no acepte decimales
+                'scale' => 0, // para que al guardar redonde a entero
                 'html5' => true, // para que use el input type number de HTML5
                 'attr' => [ // agregamos atributos HTML al campo
                     'class' => 'form-control', // clase de Bootstrap para estilizar el campo o cualquier otra clase para css o js
+                    'spep' => 1, // para que el campo aumente o disminuya de 1 en 1 esto garantiza que solo se ingresen numeros enteros
                     'placeholder' => 'Ingrese su edad', // placeholder para que el usuario sepa que debe ingresar
                     'min' => 0, // minimo de caracteres que puede ingresar
                     'max' => 120, // maximo de caracteres que puede ingresar
