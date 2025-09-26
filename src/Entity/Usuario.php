@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
@@ -24,6 +26,17 @@ class Usuario
 
     #[ORM\Column]
     private ?int $edad = null;
+
+    /**
+     * @var Collection<int, Juego>
+     */
+    #[ORM\OneToMany(targetEntity: Juego::class, mappedBy: 'usuario')]
+    private Collection $juegos;
+
+    public function __construct()
+    {
+        $this->juegos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +87,36 @@ class Usuario
     public function setEdad(int $edad): static
     {
         $this->edad = $edad;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Juego>
+     */
+    public function getJuegos(): Collection
+    {
+        return $this->juegos;
+    }
+
+    public function addJuego(Juego $juego): static
+    {
+        if (!$this->juegos->contains($juego)) {
+            $this->juegos->add($juego);
+            $juego->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJuego(Juego $juego): static
+    {
+        if ($this->juegos->removeElement($juego)) {
+            // set the owning side to null (unless already changed)
+            if ($juego->getUsuario() === $this) {
+                $juego->setUsuario(null);
+            }
+        }
 
         return $this;
     }
