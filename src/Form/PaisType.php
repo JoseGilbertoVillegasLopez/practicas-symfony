@@ -64,7 +64,9 @@ class PaisType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'csrf_protection' => true, // habilitamos la protección CSRF
+            'csrf_field_name' => '_token', // nombre del campo oculto que contendrá el token CSRF 
+            'csrf_token_id'   => 'task_item', // un identificador único para el token CSRF
         ]);
     }
 }
